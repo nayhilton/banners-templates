@@ -1,0 +1,43 @@
+{
+  "name": "banners-templates",
+  "version": "1.0.0",
+  "description": "Banner Content Generator",
+  "main": "build.js",
+  "scripts": {
+    "start": "node build --dev",
+    "build": "node build && rm -rf",
+    "csvtojson": "node ./npm/csvtojson.js"
+  },
+  "dependencies": {    
+
+  },
+  "devDependencies": {
+    "csvtojson": "^1.1.5",
+    "metalsmith": "^2.1.0",
+    "metalsmith-in-place": "^1.4.3",
+    "metalsmith-layouts": "^1.5.4",
+    "metalsmith-concat": "^6.0.0",
+    "metalsmith-ignore": "^0.1.2",
+    "metalsmith-rename": "^1.0.0",
+    "metalsmith-stylus": "^3.0.0",
+    "metalsmith-uglifyjs": "^0.2.3",
+    "metalsmith-watch": "^1.0.3",
+    "browser-sync": "^2.13.0",
+    "browser-sync-webpack-plugin": "^1.1.0",
+    "copy-dir": "^0.3.0",
+    "fs": "0.0.1-security",
+    "glob": "^7.0.5",
+    "nunjucks": "^2.3.0",
+    "handlebars": "^4.0.5"
+  },
+  "config": {
+    "server": "python -m SimpleHTTPServer 8000",
+    "csv_dir": "src/content/",
+    "json_dir": "src/data/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/nayhilton/banners-templates"
+  },
+  "author": "F.biz"
+}

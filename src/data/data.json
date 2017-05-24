@@ -1,0 +1,17 @@
+{
+  "Destaque-maio": {
+    "title": "lorem ipsum 1",
+    "text": "dolor sit 1",
+    "src": "img1.png"
+  },
+  "Destaque-junho": {
+    "title": "lorem ipsum 2",
+    "text": "dolor sit 2",
+    "src": "img2.png"
+  },
+  "Destaque-julho": {
+    "title": "lorem ipsum 3",
+    "text": "dolor sit 3",
+    "src": "img3.png"
+  }
+}
