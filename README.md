@@ -1,29 +1,14 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Project to generate content through csv files for HTML5 banner templates.
 
-### What is this repository for? ###
+### Dependencies ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+- [NodeJS](http://nodejs.org/)
 
-### How do I get set up? ###
+### Tasks ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+- `npm start`: Initialize project
+- `npm run build`: Build project
+- `npm run csvtojson`: Convert csv files to json files
 
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
