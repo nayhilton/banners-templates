@@ -15,7 +15,7 @@ var dev = !!process.argv.filter(function(item){
 
 
 var program = metalsmith(__dirname)
-	.use(ignore(['masterpage/**', 'data/**']))
+	.use(ignore(['masterpage/**', 'data/**', '*.hbs']))
 	.source('./src')
   	.destination('./output') 
   	.clean(true) 

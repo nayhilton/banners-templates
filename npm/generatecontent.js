@@ -7,10 +7,14 @@ var dataFile = 'src/data/data.json';
 var templateFile = 'src/templates/masterhead/index.hbs';
 var handlebars = require('handlebars');
 
-
-
-
 (function path() {
+
+	(!fs.existsSync('./output')) ? fs.mkdirSync('./output') : '';
+
+	(!fs.existsSync('./output/templates')) ? fs.mkdirSync('./output/templates'): '';
+	
+
+	console.log('passou')
 
 	var file = fs.readFileSync(templateFile).toString(),
 		data = JSON.parse(fs.readFileSync(dataFile)),
@@ -21,7 +25,7 @@ var handlebars = require('handlebars');
 
 			var destFile = 'output/templates/' + prop + '/index.html';
 
-			if (!fs.existsSync('output/templates/' + prop)){
+			if (!fs.existsSync('output/templates/' + prop)) {
 			    fs.mkdirSync('output/templates/' + prop);
 			}
 
@@ -29,7 +33,7 @@ var handlebars = require('handlebars');
 
 			var result = template(data[prop]);
 
-			// copydir.sync('src/templates/', 'output/templates');
+			copydir.sync('src/templates/masterhead', 'output/templates/' + prop);
 
 			fs.appendFile(destFile, result, function(error) {
 				(error) ? console.error("Error") : console.log("Successful Write to " + destFile);		
