@@ -14,7 +14,13 @@ var handlebars = require('handlebars');
 	(!fs.existsSync('./output/templates')) ? fs.mkdirSync('./output/templates'): '';
 	
 
-	console.log('passou')
+	console.log('passou');
+
+	//O que falta:
+
+	//1. Deixar Templates dinamicos
+
+	//2. Excluir hbs
 
 	var file = fs.readFileSync(templateFile).toString(),
 		data = JSON.parse(fs.readFileSync(dataFile)),

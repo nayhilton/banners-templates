@@ -27,7 +27,7 @@ var program = metalsmith(__dirname)
 		src:['templates/**/*.js']
 	}))
 	.use(inplace({
-		engine: 'nunjucks',
+		engine: 'handlebars',
 		pattern: '**/*.hbs'
 	}))
 	.use(rename([
