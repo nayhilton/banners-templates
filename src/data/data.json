@@ -2,31 +2,31 @@
   "destaque-maio": {
     "title": "Banner destaque de maio 1",
     "text": "dolor sit 1 maio",
-    "src": "img1maio.png",
+    "src": "img-maio.png",
     "teste": "teste"
   },
   "destaque-junho": {
     "title": "Banner destaque de junho 2",
     "text": "dolor sit 2 junho",
-    "src": "img2junho.png",
+    "src": "img-junho.png",
     "teste": ""
   },
   "destaque-julho": {
     "title": "Banner destaque de julho 3",
     "text": "dolor sit 3 julho",
-    "src": "img3julho.png",
+    "src": "img-julho.png",
     "teste": ""
   },
   "globo": {
     "title": "Banner destaque de globo 1",
     "text": "dolor sit 1 globo",
-    "src": "img1globo.png",
+    "src": "img-globo.png",
     "teste": ""
   },
   "uol": {
     "title": "Banner destaque de uol 2",
     "text": "dolor sit 2 uol",
-    "src": "img2uol.png",
+    "src": "img-uol.png",
     "teste": "teste"
   }
 }

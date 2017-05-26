@@ -11,31 +11,40 @@ var handlebars = require('handlebars');
 
 	glob("src/templates/*", function (er, folder) { //Get all templates
 
-		var templateFolders = folder; //Array of template folders
+		 //Array of template folders
+		folder.forEach(function(bannerType) {
 
-		templateFolders.forEach(function(item) {
+			var templateFile = bannerType + '/' + '/index.html', //Every file of every template folder 
+				file = fs.readFileSync(templateFile).toString(), //convert every file to string		
+				template = handlebars.compile(file); //set its own data
 
-			var templateFile = item + '/' + '/index.html', //Every file of every template folder 
-			file = fs.readFileSync(templateFile).toString(), //convert every file to string		
-			template = handlebars.compile(file); //set its own data
+			for(var campaign in data) {
 
-			for(var prop in data) {
+				var src = 'src/templates/',
+						output = 'output/templates/',
+						bannerType = bannerType.replace(src, ''),
+						destFile = output + bannerType + '/' + campaign + '/index.html'; 
 
-				var bannerType = item.replace('src/templates/', '');
+				//Copy unchanged files
+				copydir.sync(src + bannerType, output + bannerType + '/' + campaign); 				
 
-				console.log('bannerType', bannerType);
+				//Create banner and campaign folders
+				if (!fs.existsSync(output + bannerType + '/' + campaign)) {
+				 	fs.mkdirSync(output + bannerType + '/' + campaign);
+				}
 
-				copydir.sync('src/templates/' + bannerType, 'output/templates/' + bannerType + '/' + prop); //Copy unchanged files
+				//Create img folder
+				if (!fs.existsSync(output + bannerType + '/' + campaign + '/img/')) {
+					fs.mkdirSync(output + bannerType + '/' + campaign + '/img/'); 
+				}
 
-				var destFile = 'output/templates/' + bannerType + '/' + prop + '/index.html'; 
+				//Clear dest file
+				fs.writeFile(destFile, ''); 
 
-				(!fs.existsSync('output/templates/' + bannerType + '/' + prop)) ? fs.mkdirSync('output/templates/' + item + '/' + prop) : '';
+				//Set data
+				var content = template(data[campaign]);
 
-				fs.writeFile(destFile, ''); //Clear dest file
-
-				var result = template(data[prop]); //Set data
-
-				fs.appendFile(destFile, result, function(error) {
+				fs.appendFile(destFile, content, function(error) {
 					(error) ? console.error("Error") : console.log("Successful Write to " + destFile);		
 				});	
 			}
