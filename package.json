@@ -4,8 +4,7 @@
   "description": "Banner Content Generator",
   "main": "build.js",
   "scripts": {
-    "start": "npm run build --dev",
-    "build": "npm run csvtojson && node build.js rm -rf",
+    "start": "npm run csvtojson && npm run generatecontent",
     "csvtojson": "node ./npm/csvtojson.js",
     "generatecontent": "node ./npm/generatecontent.js"
   },
