@@ -25,7 +25,7 @@ var handlebars = require('handlebars');
 
 				console.log('bannerType', bannerType);
 
-				copydir.sync('src/templates/masterhead', 'output/templates/' + bannerType + '/' + prop); //Copy unchanged files
+				copydir.sync('src/templates/' + bannerType, 'output/templates/' + bannerType + '/' + prop); //Copy unchanged files
 
 				var destFile = 'output/templates/' + bannerType + '/' + prop + '/index.html'; 
 
