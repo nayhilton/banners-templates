@@ -25,6 +25,7 @@ var handlebars = require('handlebars');
 						bannerType = bannerType.replace(src, ''),
 						destFile = output + bannerType + '/' + campaign + '/index.html'; 
 
+				
 				//Copy unchanged files
 				copydir.sync(src + bannerType, output + bannerType + '/' + campaign); 				
 
@@ -34,18 +35,41 @@ var handlebars = require('handlebars');
 				}
 
 				//Create img folder
-				if (!fs.existsSync(output + bannerType + '/' + campaign + '/img/')) {
-					fs.mkdirSync(output + bannerType + '/' + campaign + '/img/'); 
-				}
+
+				if(data[campaign].src.indexOf('http') === -1) {
+					console.log('NAO TEM HTTP') 
+
+					//Create img folder
+
+					if (!fs.existsSync(output + bannerType + '/' + campaign + '/img/')) {
+						console.log('NAO TEM PASTA') 
+						fs.mkdirSync(output + bannerType + '/' + campaign + '/img/'); 
+						console.log('CRIOU PASTA') 
+					}
+
+					//Copy img src
+
+					var img = 'img/' + data[campaign].src;
+
+					if('src/assets/' + bannerType + '/' + data[campaign].src) {
+						console.log('EXSITE A IMAGEM NO OBJETO')
+						fs.writeFileSync(output + bannerType + '/' + campaign + '/' + img, 
+						fs.readFileSync('src/assets/' + bannerType + '/' + data[campaign].src));
+					} 
+			
+				}		
+				
 
 				//Clear dest file
 				fs.writeFile(destFile, ''); 
 
+
 				//Set data
 				var content = template(data[campaign]);
+								
 
 				fs.appendFile(destFile, content, function(error) {
-					(error) ? console.error("Error") : console.log("Successful Write to " + destFile);		
+					// (error) ? console.error("Error") : console.log("Successful Write to " + destFile);		
 				});	
 			}
 
