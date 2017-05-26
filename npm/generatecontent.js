@@ -21,9 +21,9 @@ var handlebars = require('handlebars');
 			for(var campaign in data) {
 
 				var src = 'src/templates/',
-						output = 'output/templates/',
-						bannerType = bannerType.replace(src, ''),
-						destFile = output + bannerType + '/' + campaign + '/index.html'; 
+					output = 'output/templates/',
+					bannerType = bannerType.replace(src, ''),
+					destFile = output + bannerType + '/' + campaign + '/index.html'; //Dest file to get content
 				
 				//Copy unchanged files
 				copydir.sync(src + bannerType, output + bannerType + '/' + campaign); 				
@@ -34,32 +34,30 @@ var handlebars = require('handlebars');
 				}
 
 				//Create img folder if src doesn`t contain 'http'
-				if(data[campaign].src.indexOf('http') === -1) {
+				// if(data[campaign].src.indexOf('http') === -1) {
 
-					//Create img folder					
-					if (!fs.existsSync(output + bannerType + '/' + campaign + '/img/')) {						
-						fs.mkdirSync(output + bannerType + '/' + campaign + '/img/'); 
-					}
+				//Create img folder					
+				if (!fs.existsSync(output + bannerType + '/' + campaign + '/img/')) {						
+					fs.mkdirSync(output + bannerType + '/' + campaign + '/img/'); 
+				}
 
 
-					//Copy img src if it exists in object
-					if(fs.existsSync('src/assets/' + bannerType + '/' + data[campaign].src)) { //If img exists in folder						
-							fs.writeFileSync(output + bannerType + '/' + campaign + '/' + 'img/' + data[campaign].src, 
-							fs.readFileSync('src/assets/' + bannerType + '/' + data[campaign].src));
-					}
+				//Copy img src if it exists in object
+				if(fs.existsSync('src/assets/' + bannerType + '/' + data[campaign].src)) { //If img exists in folder
 
-					if(data[campaign].src.indexOf('img/') === -1) {
-						data[campaign].src = 'img/' +  data[campaign].src;
-					}		
-				}					
-
+					fs.writeFileSync(output + bannerType + '/' + campaign + '/' + 'img/' + data[campaign].src, 
+					fs.readFileSync('src/assets/' + bannerType + '/' + data[campaign].src));
+				}
+				
 				//Clear dest file
-				fs.writeFile(destFile, ''); 
+				fs.writeFile(destFile, '');
+
+				var temp = JSON.parse( JSON.stringify(data[campaign]) ); //Clone obj
+
+				temp.src = 'img/' +  temp.src;
 
 				//Set data
-				var content = template(data[campaign]);	
-
-
+				var content = template(temp);	
 
 				fs.appendFile(destFile, content, function(error) {
 					(error) ? console.error("Error") : console.log("Successful Write to " + destFile);		
