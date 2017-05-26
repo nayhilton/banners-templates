@@ -1,32 +1,32 @@
 {
   "destaque-maio": {
-    "title": "lorem ipsum 1",
-    "text": "dolor sit 1",
-    "src": "img1.png",
+    "title": "Banner destaque de maio 1",
+    "text": "dolor sit 1 maio",
+    "src": "img1maio.png",
     "teste": "teste"
   },
   "destaque-junho": {
-    "title": "lorem ipsum 2",
-    "text": "dolor sit 2",
-    "src": "img2.png",
+    "title": "Banner destaque de junho 2",
+    "text": "dolor sit 2 junho",
+    "src": "img2junho.png",
     "teste": ""
   },
   "destaque-julho": {
-    "title": "lorem ipsum 3",
-    "text": "dolor sit 3",
-    "src": "img3.png",
+    "title": "Banner destaque de julho 3",
+    "text": "dolor sit 3 julho",
+    "src": "img3julho.png",
     "teste": ""
   },
   "globo": {
-    "title": "lorem ipsum 1",
-    "text": "dolor sit 1",
-    "src": "img1.png",
+    "title": "Banner destaque de globo 1",
+    "text": "dolor sit 1 globo",
+    "src": "img1globo.png",
     "teste": ""
   },
   "uol": {
-    "title": "lorem ipsum 2",
-    "text": "dolor sit 2",
-    "src": "img2.png",
+    "title": "Banner destaque de uol 2",
+    "text": "dolor sit 2 uol",
+    "src": "img2uol.png",
     "teste": "teste"
   }
 }

@@ -11,22 +11,11 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "browser-sync": "^2.13.0",
-    "browser-sync-webpack-plugin": "^1.1.0",
     "copy-dir": "^0.3.0",
     "csvtojson": "^1.1.5",
     "fs": "0.0.1-security",
     "glob": "^7.0.5",
     "handlebars": "^4.0.5",
-    "metalsmith": "^2.1.0",
-    "metalsmith-concat": "^6.0.0",
-    "metalsmith-ignore": "^0.1.2",
-    "metalsmith-in-place": "^1.4.3",
-    "metalsmith-layouts": "^1.5.4",
-    "metalsmith-rename": "^1.0.0",
-    "metalsmith-stylus": "^3.0.0",
-    "metalsmith-uglifyjs": "^0.2.3",
-    "metalsmith-watch": "^1.0.3",
     "mkdirp": "^0.5.1"
   },
   "config": {
