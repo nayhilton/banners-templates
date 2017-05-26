@@ -46,14 +46,20 @@ var handlebars = require('handlebars');
 					if(fs.existsSync('src/assets/' + bannerType + '/' + data[campaign].src)) { //If img exists in folder						
 							fs.writeFileSync(output + bannerType + '/' + campaign + '/' + 'img/' + data[campaign].src, 
 							fs.readFileSync('src/assets/' + bannerType + '/' + data[campaign].src));
-					}			
+					}
+
+					if(data[campaign].src.indexOf('img/') === -1) {
+						data[campaign].src = 'img/' +  data[campaign].src;
+					}		
 				}					
 
 				//Clear dest file
 				fs.writeFile(destFile, ''); 
 
 				//Set data
-				var content = template(data[campaign]);								
+				var content = template(data[campaign]);	
+
+
 
 				fs.appendFile(destFile, content, function(error) {
 					(error) ? console.error("Error") : console.log("Successful Write to " + destFile);		
