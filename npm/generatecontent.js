@@ -4,41 +4,39 @@ const	fs = require('fs-extra'),
 		copydir = require('copy-dir'),
 		path = require('path'),
 		handlebars = require('handlebars'),
-		dataFile = 'src/data/data.json',		
-		data = JSON.parse(fs.readFileSync(dataFile)), //ok
+		data = JSON.parse(fs.readFileSync('src/data/data.json')), //ok
 		srcTemplates = 'src/templates/',
 		srcAssets = 'src/assets/',
 		output = 'output/templates/';
 
-(function structure() {
+(structure => {
+	glob(srcTemplates + "/*", (er, arrBannerType) => { //Get array of all templates (bannerType folders)
 
-	glob(srcTemplates + "/*", function (er, arrBannerType) { //Get array of all templates (bannerType folders)
+		arrBannerType.forEach((templates) => {
 
-		arrBannerType.forEach(function(bannerType) {
-
-			const templateFile = path.join(bannerType, '/index.html'); //Every index file of every template folder 
-				file = fs.readFileSync(templateFile).toString(), //convert every file to string     
-				template = handlebars.compile(file); //set its own data
+			const templateFile = path.join(templates, '/index.html'); //Every index file of every template folder 
+						file = fs.readFileSync(templateFile).toString(), //convert every file to string     
+						template = handlebars.compile(file); //set its own data
 
 			for(var campaign in data) {
-				var outputStructure = path.join(output, campaign, bannerType);
-					bannerType = bannerType.replace(srcTemplates, ''),
-					destFile = outputStructure + '/index.html'; //Dest file to get content
-					imgPath = path.join(outputStructure, 'img/');
 
-			(function createOutputStructure() {					
-				copydir.sync(srcTemplates + bannerType, outputStructure); //Copy unchanged files          
-				!fs.existsSync(outputStructure) ? fs.mkdirSync(outputStructure) : 'error';
-				!fs.existsSync(imgPath) ? fs.mkdirSync(imgPath) : 'error'; //Create img folder 
-				fs.copySync(path.join(srcAssets, campaign, bannerType), imgPath);			
+				const bannerType = templates.replace(srcTemplates, ''), //Just name of template
+							outputStructure = path.join(output, campaign, bannerType), //Structure of output folder							
+							destFile = outputStructure + '/index.html', //Dest file to get content
+							imgPath = path.join(outputStructure, 'img/'); //img path
 
-			})();
+				(createOutputStructure => {					
+					copydir.sync(srcTemplates + bannerType, outputStructure); //Copy unchanged files   
+					!fs.existsSync(outputStructure) ? fs.mkdirSync(outputStructure) : 'error'; //Create output folder's structure
+					!fs.existsSync(imgPath) ? fs.mkdirSync(imgPath) : 'error'; //Create img folder 
+					fs.copySync(path.join(srcAssets, campaign, bannerType), imgPath); //Copy img src to img output
+				})();
 
-			(function appendContent() {				
-				fs.writeFileSync(destFile, '');	//clear file			
-				var content = template(data[campaign]); //Set data
-				fs.appendFileSync(destFile, content); //Append Data
-			})();				
+				(appendContent =>{				
+					fs.writeFileSync(destFile, '');	//clear file			
+					let content = template(data[campaign]); //Set data
+					fs.appendFileSync(destFile, content); //Append Data
+				})();				
 			}
 		}); 
 	});
