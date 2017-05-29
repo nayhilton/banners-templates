@@ -15,7 +15,7 @@ var handlebars = require('handlebars');
 		folder.forEach(function(bannerType) {
 
 			var templateFile = bannerType + '/' + '/index.html', //Every file of every template folder 
-				file = fs.readFileSync(templateFile).toString(), //convert every file to string		
+				file = fs.readFileSync(templateFile).toString(), //convert every file to string     
 				template = handlebars.compile(file); //set its own data
 
 			for(var campaign in data) {
@@ -23,47 +23,43 @@ var handlebars = require('handlebars');
 				var src = 'src/templates/',
 					output = 'output/templates/',
 					bannerType = bannerType.replace(src, ''),
-					destFile = output + bannerType + '/' + campaign + '/index.html'; //Dest file to get content
+					destFile = output + campaign + '/' + bannerType + '/index.html'; //Dest file to get content
 				
 				//Copy unchanged files
-				copydir.sync(src + bannerType, output + bannerType + '/' + campaign); 				
+				copydir.sync(src + bannerType, output + campaign + '/' + bannerType);               
 
 				//Create banner and campaign folders
-				if (!fs.existsSync(output + bannerType + '/' + campaign)) {
-				 	fs.mkdirSync(output + bannerType + '/' + campaign);
+				if (!fs.existsSync(output + campaign + '/' + bannerType)) {
+					fs.mkdirSync(output + campaign + '/' + bannerType);
+				}
+				//Create img folder                 
+				if (!fs.existsSync(output + campaign + '/' + bannerType + '/img/')) {                       
+					fs.mkdirSync(output + campaign + '/' + bannerType + '/img/'); 
 				}
 
-				//Create img folder if src doesn`t contain 'http'
-				// if(data[campaign].src.indexOf('http') === -1) {
-
-				//Create img folder					
-				if (!fs.existsSync(output + bannerType + '/' + campaign + '/img/')) {						
-					fs.mkdirSync(output + bannerType + '/' + campaign + '/img/'); 
+				//Copy img
+				function copySync(src, dest) {
+					if (!fs.existsSync(src)) {
+						return false;
+					}
+					var data = fs.readFileSync(src, 'utf-8');
+					fs.writeFileSync(dest, data);
 				}
 
+				copySync('src/assets/' + campaign +'/' + bannerType + '/*', output + campaign +'/' + bannerType + '/' + 'img/')
 
-				//Copy img src if it exists in object
-				if(fs.existsSync('src/assets/' + bannerType + '/' + data[campaign].src)) { //If img exists in folder
-
-					fs.writeFileSync(output + bannerType + '/' + campaign + '/' + 'img/' + data[campaign].src, 
-					fs.readFileSync('src/assets/' + bannerType + '/' + data[campaign].src));
-				}
 				
 				//Clear dest file
 				fs.writeFile(destFile, '');
 
-				var temp = JSON.parse( JSON.stringify(data[campaign]) ); //Clone obj
-
-				temp.src = 'img/' +  temp.src;
-
 				//Set data
-				var content = template(temp);	
+				var content = template(data[campaign]); 
 
 				fs.appendFile(destFile, content, function(error) {
-					(error) ? console.error("Error") : console.log("Successful Write to " + destFile);		
-				});	
+					(error) ? console.error("Error") : console.log("Successful Write to " + destFile);      
+				}); 
 			}
 
-		});	
+		}); 
 	});
 })();
