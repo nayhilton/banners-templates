@@ -1,65 +1,45 @@
-var fs = require("fs");
-var glob = require("glob");
-var mkdir = require("mkdirp");
-var copydir = require('copy-dir');
-var path = require('path');
-var dataFile = 'src/data/data.json';
-var handlebars = require('handlebars');
+const	fs = require('fs-extra'),
+		glob = require("glob"),
+		mkdir = require("mkdirp"),
+		copydir = require('copy-dir'),
+		path = require('path'),
+		handlebars = require('handlebars'),
+		dataFile = 'src/data/data.json',		
+		data = JSON.parse(fs.readFileSync(dataFile)), //ok
+		srcTemplates = 'src/templates/',
+		srcAssets = 'src/assets/',
+		output = 'output/templates/';
 
-(function path() {
-	var data = JSON.parse(fs.readFileSync(dataFile));
+(function structure() {
 
-	glob("src/templates/*", function (er, folder) { //Get all templates
+	glob(srcTemplates + "/*", function (er, arrBannerType) { //Get array of all templates (bannerType folders)
 
-		 //Array of template folders
-		folder.forEach(function(bannerType) {
+		arrBannerType.forEach(function(bannerType) {
 
-			var templateFile = bannerType + '/' + '/index.html', //Every file of every template folder 
+			const templateFile = path.join(bannerType, '/index.html'); //Every index file of every template folder 
 				file = fs.readFileSync(templateFile).toString(), //convert every file to string     
 				template = handlebars.compile(file); //set its own data
 
 			for(var campaign in data) {
+				var outputStructure = path.join(output, campaign, bannerType);
+					bannerType = bannerType.replace(srcTemplates, ''),
+					destFile = outputStructure + '/index.html'; //Dest file to get content
+					imgPath = path.join(outputStructure, 'img/');
 
-				var src = 'src/templates/',
-					output = 'output/templates/',
-					bannerType = bannerType.replace(src, ''),
-					destFile = output + campaign + '/' + bannerType + '/index.html'; //Dest file to get content
-				
-				//Copy unchanged files
-				copydir.sync(src + bannerType, output + campaign + '/' + bannerType);               
+			(function createOutputStructure() {					
+				copydir.sync(srcTemplates + bannerType, outputStructure); //Copy unchanged files          
+				!fs.existsSync(outputStructure) ? fs.mkdirSync(outputStructure) : 'error';
+				!fs.existsSync(imgPath) ? fs.mkdirSync(imgPath) : 'error'; //Create img folder 
+				fs.copySync(path.join(srcAssets, campaign, bannerType), imgPath);			
 
-				//Create banner and campaign folders
-				if (!fs.existsSync(output + campaign + '/' + bannerType)) {
-					fs.mkdirSync(output + campaign + '/' + bannerType);
-				}
-				//Create img folder                 
-				if (!fs.existsSync(output + campaign + '/' + bannerType + '/img/')) {                       
-					fs.mkdirSync(output + campaign + '/' + bannerType + '/img/'); 
-				}
+			})();
 
-				//Copy img
-				function copySync(src, dest) {
-					if (!fs.existsSync(src)) {
-						return false;
-					}
-					var data = fs.readFileSync(src, 'utf-8');
-					fs.writeFileSync(dest, data);
-				}
-
-				copySync('src/assets/' + campaign +'/' + bannerType + '/*', output + campaign +'/' + bannerType + '/' + 'img/')
-
-				
-				//Clear dest file
-				fs.writeFile(destFile, '');
-
-				//Set data
-				var content = template(data[campaign]); 
-
-				fs.appendFile(destFile, content, function(error) {
-					(error) ? console.error("Error") : console.log("Successful Write to " + destFile);      
-				}); 
+			(function appendContent() {				
+				fs.writeFileSync(destFile, '');	//clear file			
+				var content = template(data[campaign]); //Set data
+				fs.appendFileSync(destFile, content); //Append Data
+			})();				
 			}
-
 		}); 
 	});
 })();
