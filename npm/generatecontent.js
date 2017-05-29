@@ -1,13 +1,13 @@
 const	fs = require('fs-extra'),
-		glob = require("glob"),
-		mkdir = require("mkdirp"),
-		copydir = require('copy-dir'),
-		path = require('path'),
-		handlebars = require('handlebars'),
-		data = JSON.parse(fs.readFileSync('src/data/data.json')), //ok
-		srcTemplates = 'src/templates/',
-		srcAssets = 'src/assets/',
-		output = 'output/templates/';
+			glob = require("glob"),
+			mkdir = require("mkdirp"),
+			copydir = require('copy-dir'),
+			path = require('path'),
+			handlebars = require('handlebars'),
+			data = JSON.parse(fs.readFileSync('src/data/data.json')),
+			srcTemplates = 'src/templates/',
+			srcAssets = 'src/assets/',
+			output = 'output/templates/';
 
 (structure => {
 	glob(srcTemplates + "/*", (er, arrBannerType) => { //Get array of all templates (bannerType folders)

@@ -1,40 +1,39 @@
-var fs = require("fs");
-var glob = require("glob");
-var csvFile = 'src/data/data.csv';
-var jsonFile = 'src/data/data.json';
+const fs = require("fs");
+	  glob = require("glob");
+	  csvFile = 'src/data/data.csv';
+	  jsonFile = 'src/data/data.json';
 
-(function path() {
-	var contentCsvFile = fs.readFileSync(csvFile).toString();
+(csvtojson => {
 
-	fs.writeFile(jsonFile, ''); //clear file
+	fs.writeFileSync(jsonFile, ''); //clear file
 
-	var csv = contentCsvFile.replace(/^(\w*)?;/, '').replace(/\r/g, ''),
-		arraytotal = csv.split(/\n/), //All lines of csv
-		arrayProp = arraytotal[0].split(';'); //Filter just Objct Properties
+	const csv = fs.readFileSync(csvFile).toString(); //Convert csv file to string
+	csv.replace(/^(\w*)?;/, '').replace(/\r/g, ''); //Remove de first word
 
-	arraytotal.shift(); //Remove properties
+	let arr = csv.split(/\n/), //For each new line create an item in array
+		obj = {};
+	
+	arrProp = arr[0].split(';'); //Return an array of properties	
+	arr.shift(); //Remove properties of array
 
-	var obj = {}; 
 
-	arraytotal.forEach(function(line) {
+	arr.forEach((line) => { 
 
-		var key = line.split(';').shift(), //Object Name
-			arrayValues = line.split(';'); //Object Values
+		let key = line.split(';').shift(), //Return name of key (the first item from array)
+			arrValues = line.split(';'); //Return values 
 
-		arrayValues.shift(); //Remove Object Name
+		arrValues.shift(); //Remove key (the first item from array) 
 
 		obj[key] = {}; //obj.key 
 
-		arrayProp.map(function(item, index){
-			obj[key][item] = arrayValues[index] //obj.key.property = value
+		arrProp.map((property, index) => { //While have properties
+			obj[key][property] = arrValues[index] //obj.key.property = value
 		})		
 
 	});
 
-	var myJSON = JSON.stringify(obj, null, 2);
+	const myJSON = JSON.stringify(obj, null, 2); //Convert object to json and indent it 
 
-	fs.appendFile(jsonFile, myJSON, function(error) {
-		(error) ? console.error("Error") : console.log("Successful Write to " + jsonFile);		
-	});	
+	fs.appendFileSync(jsonFile, myJSON) //Append converted csv content in json file
 
 })();
